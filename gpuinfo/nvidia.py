@@ -1,9 +1,6 @@
 # Standard library imports
 import subprocess
 
-# First-party imports
-import base
-
 def query_nvsmi(properties, index=None):
 	query = ['nvidia-smi', '--query-gpu={}'.format(properties), '--format=csv,noheader,nounits']
 
@@ -19,9 +16,10 @@ def query_nvsmi(properties, index=None):
 
 	return rows
 
-class GPU(base.GPU):
+class GPU():
 	def __init__(self, index, name, total_memory):
-		super().__init__(name, total_memory)
+		self.name = name
+		self.total_memory = int(total_memory)
 		self.index = int(index)
 
 	def get_clock_speeds(self):

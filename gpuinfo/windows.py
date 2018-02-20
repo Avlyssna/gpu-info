@@ -2,9 +2,6 @@
 import subprocess
 import re
 
-# First-party imports
-import base
-
 def query_wmic(properties, device_id=None):
 	query = ['WMIC PATH Win32_VideoController']
 
@@ -22,11 +19,12 @@ def query_wmic(properties, device_id=None):
 
 	return rows
 
-class GPU(base.GPU):
+class GPU():
 	def __init__(self, total_memory, device_id, name):
+		self.name = name
 		# It is important to note that due to the limitations of 32-bit integers, Windows will not report
 		# the correct memory for any GPU with a total memory greater than 4GB.
-		super().__init__(name, int(total_memory) / 1048576)
+		self.total_memory = int(int(total_memory) / 1048576)
 		self.device_id = device_id
 
 def get_gpus():
